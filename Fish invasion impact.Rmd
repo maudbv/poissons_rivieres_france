@@ -1,0 +1,32 @@
+---
+title: "Analysing fish invasion impact in french rivers "
+date: "30/01/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE, message=FALSE, warning=TRUE }
+knitr::opts_chunk$set(echo = FALSE)
+library(vegan, verbose = F)
+library(doBy)
+```
+
+
+### Import, clean and check data
+
+We are using public data from the ONEMA database.
+
+```{r}
+source(file = 'scripts/import data.R')
+```
+
+### Exploratory analysis
+Correlation of native vs. exotic richness at alpha scale.
+
+Correlation of native vs. exotic richness at regional (watershed) scale.
+
+### Comparing the impact of exotic fish on alpha and gamma fish diversity
+
+Trends in local fish species richness along abundance gradient of exotic and other abundant fish.
+
+Trends in regional richness along abundance gradient of exotic fish.
+
