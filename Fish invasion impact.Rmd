@@ -8,18 +8,37 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 library(vegan, verbose = F)
 library(doBy)
+library(ggplot2)
+library(reshape2)
+library(readxl)
+
+Sys.setlocale("LC_ALL", 'en_US.UTF-8')
+
+
 ```
+
 
 
 ### Import, clean and check data
 
 We are using public data from the ONEMA database.
 
-```{r}
+```{r import, include=FALSE, message=FALSE, warning=TRUE}
 source(file = 'scripts/import data.R')
 ```
 
 ### Exploratory analysis
+
+Example of species richness in each river over time (here for rivers of Alsace with complete data in 2009-2013):
+```{r}
+SR = tapply(X = peches$`Nom usuel de l'espèce`,  INDEX = list( peches$Localisation , format(as.Date(peches$`Date de pêche`), "%Y") ), FUN =function(x)  length(x) )
+meltdf <- melt(na.omit(SR))
+
+ggplot(meltdf,aes(x=Var2,y=value,colour=Var1,group=Var1)) + geom_line(na.rm = T, show.legend = T) + labs(x = "year", y = "Species Richness", group ="Station")
+
+```
+
+
 Correlation of native vs. exotic richness at alpha scale.
 
 Correlation of native vs. exotic richness at regional (watershed) scale.
