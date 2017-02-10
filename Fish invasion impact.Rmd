@@ -11,13 +11,8 @@ library(doBy)
 library(ggplot2)
 library(reshape2)
 library(readxl)
-
 Sys.setlocale("LC_ALL", 'en_US.UTF-8')
-
-
 ```
-
-
 
 ### Import, clean and check data
 
@@ -37,8 +32,15 @@ meltdf <- melt(na.omit(SR))
 ggplot(meltdf,aes(x=Var2,y=value,colour=Var1,group=Var1)) + geom_line(na.rm = T, show.legend = T) + labs(x = "year", y = "Species Richness", group ="Station")
 
 ```
+## Explore data availablility for temporal trends
+
+Number of years, per station: how many temporal series do we have?
+
+For exotic species only: search for series with a transition from absent to present (= "arrival")
 
 
+
+## Richness correlations
 Correlation of native vs. exotic richness at alpha scale.
 
 Correlation of native vs. exotic richness at regional (watershed) scale.
