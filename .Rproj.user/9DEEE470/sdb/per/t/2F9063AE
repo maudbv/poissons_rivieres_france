@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Analysing fish invasion impact in french rivers \"\ndate: \"30/01/2017\"\noutput: html_document\n---\n\n```{r setup, include=FALSE, message=FALSE, warning=TRUE }\nknitr::opts_chunk$set(echo = FALSE)\nlibrary(vegan, verbose = F)\nlibrary(doBy)\nlibrary(ggplot2)\nlibrary(reshape2)\nlibrary(readxl)\nSys.setlocale(\"LC_ALL\", 'UTF-8')\n```\n\n### Import, clean and check data\n\nWe are using public data from the ONEMA database.\n\n```{r import, include=TRUE, message=FALSE, warning=TRUE}\nsource(file = 'scripts/import data.R')\n\nhead(peches)\n```\n\n### Exploratory analysis\n\nExample of species richness in each river over time (here for rivers of Alsace with complete data in 2009-2013):\n```{r}\nSR = tapply(X = peches$`Nom usuel de l'espèce`,  INDEX = list( peches$Localisation , format(as.Date(peches$`Date de pêche`), \"%Y\") ), FUN =function(x)  length(x) )\nmeltdf <- melt(na.omit(SR))\n\nggplot(meltdf,aes(x=Var2,y=value,colour=Var1,group=Var1)) + geom_line(na.rm = T, show.legend = T) + labs(x = \"year\", y = \"Species Richness\", group =\"Station\")\n\n```\n## Explore data availablility for temporal trends\n\nNumber of years, per station: how many temporal series do we have?\n\nFor exotic species only: search for series with a transition from absent to present (= \"arrival\")\n\n\n\n## Richness correlations\nCorrelation of native vs. exotic richness at alpha scale.\n\nCorrelation of native vs. exotic richness at regional (watershed) scale.\n\n### Comparing the impact of exotic fish on alpha and gamma fish diversity\n\nTrends in local fish species richness along abundance gradient of exotic and other abundant fish.\n\nTrends in regional richness along abundance gradient of exotic fish.\n\n",
+    "created" : 1486740612796.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "71240091",
+    "id" : "2F9063AE",
+    "lastKnownWriteTime" : 1486744356,
+    "last_content_update" : 1486744356231,
+    "path" : "~/Documents/Work/Collaboration poissons/poissons_rivieres_france/Fish invasion impact.Rmd",
+    "project_path" : "Fish invasion impact.Rmd",
+    "properties" : {
+        "last_setup_crc32" : ""
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

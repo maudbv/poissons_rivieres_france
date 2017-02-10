@@ -11,15 +11,17 @@ library(doBy)
 library(ggplot2)
 library(reshape2)
 library(readxl)
-Sys.setlocale("LC_ALL", 'en_US.UTF-8')
+Sys.setlocale("LC_ALL", 'UTF-8')
 ```
 
 ### Import, clean and check data
 
 We are using public data from the ONEMA database.
 
-```{r import, include=FALSE, message=FALSE, warning=TRUE}
+```{r import, include=TRUE, message=FALSE, warning=TRUE}
 source(file = 'scripts/import data.R')
+
+head(peches)
 ```
 
 ### Exploratory analysis

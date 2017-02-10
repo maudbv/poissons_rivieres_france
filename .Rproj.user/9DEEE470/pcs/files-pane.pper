@@ -1,0 +1,9 @@
+{
+    "path" : "~/Documents/Work/Collaboration poissons/poissons_rivieres_france/data/lexicon",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}

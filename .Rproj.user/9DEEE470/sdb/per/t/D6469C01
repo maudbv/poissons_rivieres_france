@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "# Import data sets\nlibrary(readxl)\nlibrary(plyr)\n\nSys.setlocale(\"LC_ALL\", 'UTF-8')\n\n# fishing data \"Exploitation\"\n# fishing data files \"Exploitation_REGION_ANNEES\" contain fish abundances by species, date, coordinates and fishing mode and method. Exploitation files contain additional information such as river name and the aim of the fishing (\"Etude\" or \"RHP\"). They are not necessary for now.\n\n### Resultats peches\npeches <- read_excel(\"data/resultats peches/Exploitation_Alsace_2010-2013.xls\", \n                     sheet = 2)\npeches$`Date de pêche` <- as.Date(peches$`Date de pêche`)\n\ncolnames(peches)\n\n# pour charger plusieurs fichier à la fois\nlst <- paste(\"data/resultats peches/\", list.files(\"data/resultats peches\"), sep = \"\")\n\ntab <- llply(lst, read_excel, sheet=2) # ca c'est beau mais ça ne marche que si tous les fichiers source ont les mêmes noms de colonnes...\n\nlapply(tab, function(x) match(colnames(x), colnames(tab[[1]])))\n\n# changement des noms de colonnes\n\nread.table(\"data/lexicon/colnames_resultats_peches.txt\", encoding = \"native.enc\" )\nread.table(\"data/lexicon/Untitled.txt\", encoding = \"UTF-8\" )\n\n\n\n\n# # corriger les\n# peches$`Date de pêche` <- as.Date(peches$`Date de pêche`) \n# \n\n# fish size class data\n\n# data from stations (Environment)\n\n\n",
+    "created" : 1486740632937.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "17859519",
+    "id" : "D6469C01",
+    "lastKnownWriteTime" : 1486746380,
+    "last_content_update" : 1486746380232,
+    "path" : "~/Documents/Work/Collaboration poissons/poissons_rivieres_france/scripts/import data.R",
+    "project_path" : "scripts/import data.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
