@@ -1,0 +1,28 @@
+old.name;corrected.name;class
+Date de pêche;date;POSIXct
+Code station Sandre;code_sandre;factor
+Code station Onema;code_onema;factor
+Localisation;localisation;character
+Abscisse Station(Lambert 93);long_station_lmbrt93;numeric
+Ordonnée Station(Lambert 93);lat_station_lmbrt93;numeric
+Ordonnée (Lambert II);long_lmbrtII;numeric
+Ordonnée (Lambert II);lat_lmbrtII;numeric
+Code point);code_point;factor
+Abscisse Point(Lambert 93);long_point_lmbrt93;numeric
+Abscisse Point(Lambert 93);lat_point_lmbrt93;numeric
+Numéro de l'opération;id_operation;factor
+Département;departement;factor
+Code Insee;code_insee;factor
+Nom de la commune;commune;character
+Code hydrographique générique du cours d'eau;code_hydro_riviere;factor
+Nom usuel du cours d'eau;nom_riviere;character
+Surface m²;surface;numeric
+Nom usuel de l'espèce;nom_espece;character
+Code Onema de l 'espèce;code_espece;factor
+Effectif (ind.);nb_ind;integer
+Masse (g);masse_ind;numeric
+Densite en nombre(ind./100 m²);densite_ind;numeric
+Densité en masse (g/100 m²);densite_masse;numeric
+Nombre de passage;nb_passage;integer
+Methode de Prospection;methode_prospection;factor
+Moyen de Prospection;moyen_prospection;factor

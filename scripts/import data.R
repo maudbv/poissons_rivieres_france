@@ -14,24 +14,43 @@ peches$`Date de pêche` <- as.Date(peches$`Date de pêche`)
 
 colnames(peches)
 
-# pour charger plusieurs fichier à la fois
+# loading several files at once
+noms_colonnes <- read.csv("data/lexicon/colnames_resultats_peches_PC.csv",
+	encoding = "native.enc", sep=";", h=T)
+for (i in 1:ncol(noms_colonnes)) noms_colonnes[,i] <- as.character(noms_colonnes[,i])
+# list of the files to include
 lst <- paste("data/resultats peches/", list.files("data/resultats peches"), sep = "")
+nrow_count <- matrix(numeric(), length(lst), 1, dimnames=list(lst, "count"))
+colnames_test <- matrix(logical(), length(lst), 1, dimnames=list(lst, "tst"))
 
-tab <- llply(lst, read_excel, sheet=2) # ca c'est beau mais ça ne marche que si tous les fichiers source ont les mêmes noms de colonnes...
+#loading function that has to change colnames before rbinding
+read.xls <- function(path_name, sheet) {
+	tmp <- read_excel(path=path_name, sheet=sheet)
+	if(any(colnames(tmp) != noms_colonnes$old.name)) { # si les noms sont différents
+		colnames_test[path_name, 1] <<- FALSE
+	} else {
+		colnames_test[path_name, 1] <<- TRUE
+		colnames(tmp) <- noms_colonnes$corrected.name
+		nrow_count[path_name, 1] <<- nrow(tmp)
+	}
+	tmp
+}
 
-lapply(tab, function(x) match(colnames(x), colnames(tab[[1]])))
 
-# changement des noms de colonnes
+tab <- ldply(lst, read.xls, sheet=2, .progress="text")
+tab$date <- as.Date(tab$date)
 
-read.table("data/lexicon/colnames_resultats_peches.txt", encoding = "native.enc" )
-read.table("data/lexicon/Untitled.txt", encoding = "UTF-8" )
+# verifications
+if (nrow(tab) != sum(nrow_count)) warning()
+if (any(!colnames_test)) warning()
+ # verification of date format?
+table(tab$long_lmbrtII>tab$lat_lmbrtII)	# verification that mislabelled columns (i.e. ordonnée Lambert II + ordonnée Lambert II) are allways in the order X then Y.
+if (any(tab$long_lmbrtII>tab$lat_lmbrtII)) warning()
+tab[sample(x=1:nrow(tab), size=10, replace=F),] # homogeneity
 
+# saving
+write.table(tab, "data/tableau_complet_peches.csv", sep=";", dec=".", row.names=F)
 
-
-
-# # corriger les
-# peches$`Date de pêche` <- as.Date(peches$`Date de pêche`) 
-# 
 
 # fish size class data
 
