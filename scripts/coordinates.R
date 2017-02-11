@@ -2,7 +2,7 @@ library(rgdal)
 library(rworldmap)
 
 # Import data sets 
-tab <- read.csv("data/tableau_complet_peches.csv", h=T, sep=";", dec=".")
+tab <- read.csv("data/resultats peches/tableau_complet_peches.csv", h=T, sep=";", dec=".")
 
 # Coordinate conversion
 
@@ -79,7 +79,7 @@ tab <- data.frame(tab, long_station, lat_station, ecoregion, bv)
 # sortir les anciennes colonnes
 #tab <- tab[, !colnames(tab) %in% c("long_station_lmbrt93","lat_station_lmbrt93","long_lmbrtII","lat_lmbrtII")]
 
-write.table(tab, "data/tableau_complet_peches.csv", row.names=F)
+write.table(tab, "data/resultats peches/tableau_complet_peches.csv", row.names=F, sep=";", dec=".")
 
 # Ajout des UH
 

@@ -8,7 +8,7 @@ Sys.setlocale("LC_ALL", 'UTF-8')
 # fishing data files "Exploitation_REGION_ANNEES" contain fish abundances by species, date, coordinates and fishing mode and method. Exploitation files contain additional information such as river name and the aim of the fishing ("Etude" or "RHP"). They are not necessary for now.
 
 ### Resultats peches
-peches <- read_excel("data/resultats peches/Exploitation_Alsace_2010-2013.xls", 
+peches <- read_excel("data/resultats peches/fichiers bruts/Exploitation_Alsace_2010-2013.xls", 
                      sheet = 2)
 peches$`Date de pêche` <- as.Date(peches$`Date de pêche`)
 
@@ -19,7 +19,7 @@ noms_colonnes <- read.csv("data/lexicon/colnames_resultats_peches_PC.csv",
 	encoding = "native.enc", sep=";", h=T)
 for (i in 1:ncol(noms_colonnes)) noms_colonnes[,i] <- as.character(noms_colonnes[,i])
 # list of the files to include
-lst <- paste("data/resultats peches/", list.files("data/resultats peches"), sep = "")
+lst <- paste("data/resultats peches/fichiers bruts", list.files("data/resultats peches/fichiers_bruts"), sep = "")
 nrow_count <- matrix(numeric(), length(lst), 1, dimnames=list(lst, "count"))
 colnames_test <- matrix(logical(), length(lst), 1, dimnames=list(lst, "tst"))
 
@@ -48,8 +48,10 @@ table(tab$long_lmbrtII>tab$lat_lmbrtII)	# verification that mislabelled columns 
 if (any(tab$long_lmbrtII>tab$lat_lmbrtII)) warning()
 tab[sample(x=1:nrow(tab), size=10, replace=F),] # homogeneity
 
+# vérifier qu'il n'y ait pas de NA dans les noms de stations
+
 # saving
-write.table(tab, "data/tableau_complet_peches.csv", sep=";", dec=".", row.names=F)
+write.table(tab, "data/resultats peches/tableau_complet_peches.csv", sep=";", dec=".", row.names=F)
 
 
 # fish size class data
