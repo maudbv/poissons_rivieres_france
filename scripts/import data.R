@@ -19,7 +19,7 @@ noms_colonnes <- read.csv("data/lexicon/colnames_resultats_peches_PC.csv",
 	encoding = "native.enc", sep=";", h=T)
 for (i in 1:ncol(noms_colonnes)) noms_colonnes[,i] <- as.character(noms_colonnes[,i])
 # list of the files to include
-lst <- paste("data/resultats peches/fichiers bruts", list.files("data/resultats peches/fichiers_bruts"), sep = "")
+lst <- paste("data/resultats peches/fichiers bruts/", list.files("data/resultats peches/fichiers bruts"), sep = "")
 nrow_count <- matrix(numeric(), length(lst), 1, dimnames=list(lst, "count"))
 colnames_test <- matrix(logical(), length(lst), 1, dimnames=list(lst, "tst"))
 
@@ -28,24 +28,34 @@ read.xls <- function(path_name, sheet) {
 	tmp <- read_excel(path=path_name, sheet=sheet)
 	if(any(colnames(tmp) != noms_colonnes$old.name)) { # si les noms sont différents
 		colnames_test[path_name, 1] <<- FALSE
+		as.data.frame(matrix(NA, 2, nrow(noms_colonnes), dimnames=list(c(), noms_colonnes$corrected.name)))
 	} else {
 		colnames_test[path_name, 1] <<- TRUE
 		colnames(tmp) <- noms_colonnes$corrected.name
 		nrow_count[path_name, 1] <<- nrow(tmp)
+		tmp
 	}
-	tmp
 }
 
 
 tab <- ldply(lst, read.xls, sheet=2, .progress="text")
+tab_arc <- tab
+dim(tab)
 tab$date <- as.Date(tab$date)
 
+tab <- tab[!apply(tab, 1, function (x) !any(!is.na(x))), ] # deleting ligns full of NAs
+dim(tab)
+
+corrupted_files <- rownames(colnames_test)[!colnames_test]
+
 # verifications
-if (nrow(tab) != sum(nrow_count)) warning()
+if (nrow(tab) != sum(nrow_count, na.rm=T)) warning()
 if (any(!colnames_test)) warning()
  # verification of date format?
-table(tab$long_lmbrtII>tab$lat_lmbrtII)	# verification that mislabelled columns (i.e. ordonnée Lambert II + ordonnée Lambert II) are allways in the order X then Y.
-if (any(tab$long_lmbrtII>tab$lat_lmbrtII)) warning()
+table(tab$long_lmbrtII > tab$lat_lmbrtII)	# verification that mislabelled columns (i.e. ordonnée Lambert II + ordonnée Lambert II) are allways in the order X then Y.
+tab[tab$long_lmbrtII < 0, c("long_lmbrtII","lat_lmbrtII")] <- NA # missing data are coded as -9 in the original file.
+
+if (any(tab$long_lmbrtII > tab$lat_lmbrtII)) warning()
 tab[sample(x=1:nrow(tab), size=10, replace=F),] # homogeneity
 
 # vérifier qu'il n'y ait pas de NA dans les noms de stations
