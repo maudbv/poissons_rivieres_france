@@ -53,7 +53,7 @@ if (nrow(tab) != sum(nrow_count, na.rm=T)) warning()
 if (any(!colnames_test)) warning()
  # verification of date format?
 table(tab$long_lmbrtII > tab$lat_lmbrtII)	# verification that mislabelled columns (i.e. ordonnée Lambert II + ordonnée Lambert II) are allways in the order X then Y.
-tab[tab$long_lmbrtII < 0, c("long_lmbrtII","lat_lmbrtII")] <- NA # missing data are coded as -9 in the original file.
+tab[tab$long_lmbrtII < 0, c("long_lmbrtII","lat_lmbrtII")] # missing data are coded as -9 in the original file.
 
 if (any(tab$long_lmbrtII > tab$lat_lmbrtII)) warning()
 tab[sample(x=1:nrow(tab), size=10, replace=F),] # homogeneity
@@ -61,7 +61,7 @@ tab[sample(x=1:nrow(tab), size=10, replace=F),] # homogeneity
 # vérifier qu'il n'y ait pas de NA dans les noms de stations
 
 # saving
-write.table(tab, "data/resultats peches/tableau_complet_peches.csv", sep=";", dec=".", row.names=F)
+write.table(tab, "data/resultats peches/tableau_complet_peches.csv", sep=";", dec=".", row.names=F, quote=TRUE, qmethod="double")
 
 
 # fish size class data

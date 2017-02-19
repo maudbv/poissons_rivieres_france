@@ -1,5 +1,6 @@
 #import data
-tab <- read.table("data/resultats peches/tableau_complet_peches.csv", sep=";", dec=".", h=T)
+tab <- read.csv("data/resultats peches/tableau_complet_peches.csv", h=T, sep=";", dec=".", quote = "\"'")
+load("data/resultats peches/tableau_complet_peches")
 tab$date <- as.Date(tab$date)
 tab <- data.frame(year=substr(tab$date, 1, 4), tab)
 lst_sp <- unique(tab$code_espece)

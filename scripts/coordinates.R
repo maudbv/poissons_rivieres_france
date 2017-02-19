@@ -2,7 +2,9 @@ library(rgdal)
 library(rworldmap)
 
 # Import data sets 
-tab <- read.csv("data/resultats peches/tableau_complet_peches.csv", h=T, sep=";", dec=".")
+tab <- read.csv("data/resultats peches/tableau_complet_peches.csv", h=T, sep=";", dec=".", quote = "\"'")
+dim(tab)
+colnames(tab)
 
 # Coordinate conversion
 
@@ -63,7 +65,8 @@ proj4string(shape_bv)
 
 bv  <- matrix(NA, nrow(tab), 1, dimnames=list(tab$id_operation, "bv"))
 for (i in 1:length(shape_bv)) {
-		bv[point.in.polygon(long_station, lat_station, shape_bv@polygons[[i]]@Polygons[[1]]@coords[,1], shape_bv@polygons[[i]]@Polygons[[1]]@coords[,2]) > 0,] <- as.character(shape_bv$BASIN)[i]
+	print(paste(i,sep="/",length(shape_bv)))
+	bv[point.in.polygon(long_station, lat_station, shape_bv@polygons[[i]]@Polygons[[1]]@coords[,1], shape_bv@polygons[[i]]@Polygons[[1]]@coords[,2]) > 0,] <- as.character(shape_bv$BASIN)[i]
 }
 length(bv)
 
@@ -79,8 +82,8 @@ tab <- data.frame(tab, long_station, lat_station, ecoregion, bv)
 # sortir les anciennes colonnes
 #tab <- tab[, !colnames(tab) %in% c("long_station_lmbrt93","lat_station_lmbrt93","long_lmbrtII","lat_lmbrtII")]
 
-write.table(tab, "data/resultats peches/tableau_complet_peches.csv", row.names=F, sep=";", dec=".")
-
+write.table(tab, "data/resultats peches/tableau_complet_peches.csv", sep=";", dec=".", row.names=F, quote=TRUE, qmethod="double")
+save(tab, file="data/resultats peches/tableau_complet_peches")
 # Ajout des UH
 
 
